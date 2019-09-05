@@ -3,7 +3,12 @@
 FILES=$(cat env.yaml | shyaml get-values checkList)
 
 IS_DEPLOY=false
-for element in $FILES
+
+if [ -z $PLUGIN_MODNAME ];then
+    mvn clean install -U -P${PLUGIN_ENV} -Dmaven.test.skip=true -s /usr/share/maven/ref/settings.xml
+    IS_DEPLOY=true
+else
+    for element in $FILES
     do
         if [ $element == ${PLUGIN_MODNAME} ]; then
             IS_DEPLOY=true
@@ -12,7 +17,10 @@ for element in $FILES
             break
         fi
     done
+fi
 
 if $IS_DEPLOY ; then
    echo "+ Maven build success."
+else
+    echo "+ skip module package maven build."
 fi

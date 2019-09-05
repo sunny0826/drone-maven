@@ -1,4 +1,6 @@
-#!/bin/sh
+#!/bin/bash
+
+set -e
 
 FILES=$(cat env.yaml | shyaml get-values checkList)
 

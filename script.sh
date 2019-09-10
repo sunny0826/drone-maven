@@ -2,14 +2,13 @@
 
 set -e
 
-FILES=$(cat env.yaml | shyaml get-values checkList)
-
 IS_DEPLOY=false
 
 if [ -z $PLUGIN_MODNAME ];then
     mvn clean install -U -P${PLUGIN_ENV} -Dmaven.test.skip=true -s /usr/share/maven/ref/settings.xml
     IS_DEPLOY=true
 else
+    FILES=$(cat env.yaml | shyaml get-values checkList)
     for element in $FILES
     do
         if [ $element == ${PLUGIN_MODNAME} ]; then
